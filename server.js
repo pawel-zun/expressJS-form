@@ -1,19 +1,30 @@
 var express = require('express');
 var app = express();
-app.use(express.static('assets'));
+/* app.use(express.static('assets')); */
+
+app.use('/store/', function(req, res, next) {
+	console.log('Jestem pośrednikiem przy żądaniu do /store');
+	next();
+});
 
 app.get('/', function(req, res) {
 	console.log('Otrzymałem żądanie GET do strony głównej');
-	res.sendFile('/index.html');
+	res.send('Hello world');
 });
 
-app.get('/userform', function (req, res) {
+app.get('/store', function(req, res) {
+	console.log('Jestem w sklepie z artykułami kolonialnymi');
+	res.send('Sklep z artykułami kolonialnymi');
+});
+
+/* app.get('/userform', function (req, res) {
 	var response = {
 		first_name: req.query.first_name,
 		last_name: req.query.last_name
 	};
 	res.end(JSON.stringify(response));
 });
+*/
 
 var server = app.listen(3000, 'localhost', function() {
 	var host = server.address().address;
